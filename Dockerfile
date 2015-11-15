@@ -20,3 +20,21 @@ VOLUME [ "/opt/Xilinx", "/home/workspace"  ]
 WORKDIR /home/workspace
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 CMD [ "--shell" ]
+
+
+RUN yum -y install mc
+
+RUN yum -y install epel-release \
+ && yum -y install xorg-x11-resutils-7.1
+
+#RUN yum -y groupinstall "Legacy X Window System compatibility"
+#RUN yum -y groupinstall "Fonts"
+#RUN yum -y groupinstall "X Window System"
+#RUN yum -y groupinstall "General Purpose Desktop"
+#RUN yum -y groupinstall "Desktop"
+#RUN yum -y groupinstall "Compatibility libraries"
+#RUN yum -y groupinstall "Legacy UNIX compatibility"
+
+#RUN yum -y groupinstall "Base"
+#RUN yum -y groupinstall "Desktop Debugging and Performance Tools"
+#RUN yum -y groupinstall "Desktop Platform"
