@@ -1,0 +1,28 @@
+#!/bin/bash -e
+
+ARCH=$(uname -m)
+if [[ $ARCH == x86_64 ]]; then
+    LIBDIR=/usr/lib64
+    ELF_ARCH=x86-64
+else
+    LIBDIR=/usr/lib
+    ELF_ARCH=80386
+fi
+
+function checkArch {
+    echo $(file -L "$1" | grep "$ELF_ARCH" | wc -l)
+}
+
+function update_lib {
+    if [[ $(checkArch "$1") == "1" ]]; then
+        echo "updating: $1"
+        rm "$1"
+        ln -s "/usr/lib64/libstdc++.so.6" "$1"
+    fi
+}
+
+for f in $(find -P /opt/Xilinx -name "libstdc++.so.6.0.8"); do
+    DIR=$(dirname "$f")
+    update_lib "${DIR}/libstdc++.so.6"
+    update_lib "${DIR}/libstdc++.so"
+done

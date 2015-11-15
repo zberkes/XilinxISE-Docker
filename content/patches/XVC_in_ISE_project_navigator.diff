@@ -1,0 +1,39 @@
+diff -aurN original/14.7/ISE_DS/ISE/data/projnav/scripts/dpm_impactTasks.tcl modified/14.7/ISE_DS/ISE/data/projnav/scripts/dpm_impactTasks.tcl
+--- original/14.7/ISE_DS/ISE/data/projnav/scripts/dpm_impactTasks.tcl	2013-10-13 20:51:21.000000000 +0200
++++ modified/14.7/ISE_DS/ISE/data/projnav/scripts/dpm_impactTasks.tcl	2015-10-28 22:33:27.000000000 +0100
+@@ -89,10 +89,12 @@
+             set sMode [ string tolower $aDevice(targetDevice) ]
+             set sMode [ lindex [ split $sMode ":" ] 0 ]
+             set lCmdList [ list "loadCdf -file \"${sImpactFileName}\"" \
+-                                "setMode -${sMode}" \
+-                                "setcable -port $sCablePortName" \
+-                                "program -target" \
+-                                "exit" ]
++                                "setMode -${sMode}" ]
++            if { $sCablePortName != "" } {
++                lappend lCmdList "setcable -port $sCablePortName"
++            }
++            lappend lCmdList "program -target" \
++                             "exit"
+             if { ! [ dpm_generateCmdFile $sCmdFileName $lCmdList ] } {
+                return false
+             } 
+@@ -274,6 +276,7 @@
+          "USB 1"          { set sCablePortName "usb1" }
+          "USB 2"          { set sCablePortName "usb2" }
+          "PARPORT 0"      { set sCablePortName "parport0" }
++         "Xilinx Virtual Cable" { set sCablePortName "" }
+          default          { set sCablePortName "auto" }
+       }
+       return true
+diff -aurN original/14.7/ISE_DS/ISE/data/projnav/scripts/dpm_propDepTasks.tcl modified/14.7/ISE_DS/ISE/data/projnav/scripts/dpm_propDepTasks.tcl
+--- original/14.7/ISE_DS/ISE/data/projnav/scripts/dpm_propDepTasks.tcl	2013-10-13 20:51:21.000000000 +0200
++++ modified/14.7/ISE_DS/ISE/data/projnav/scripts/dpm_propDepTasks.tcl	2015-10-28 22:22:37.000000000 +0100
+@@ -1134,6 +1134,7 @@
+          {USB 1}          { {nt} {nt64} {lin} {lin64} }
+          {USB 2}          { {nt} {nt64} {lin} {lin64} }
+          {PARPORT 0}      { {lin} {lin64} }
++         {Xilinx Virtual Cable} { {nt} {nt64} {lin} {lin64} }
+       }
+       set default_val "Auto - default"
+       set values {}

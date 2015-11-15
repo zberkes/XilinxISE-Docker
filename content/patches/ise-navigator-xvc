@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+cd /opt/Xilinx
+patch -f -s -r ise-navigator-xvc.rejected -p1 < /patches/XVC_in_ISE_project_navigator.diff

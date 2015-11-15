@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+PATHCHES_PATH="/patches"
+
+PATCHES=()
+
+while [[ $# > 0 ]]; do
+    case $1 in
+      "--all")
+          PATCHES=($(find "${PATHCHES_PATH}" -executable -type f))
+          break
+          ;;
+      *)
+          PATCHES=("${PATCHES[@]}" "$1")
+          shift
+          ;;
+    esac
+done
+
+if [[ ${#PATCHES[@]} == "0" ]]; then
+    echo "There are no patches."
+    echo "Try $0 --all"
+    exit
+fi
+
+set +e
+for p in "${PATCHES[@]}"; do
+    echo
+    echo "Executing patch \"$p\"..."
+    cd $PATHCES_PATH && "$p"
+done
+

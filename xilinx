@@ -1,0 +1,121 @@
+#!/bin/bash
+set -e
+
+SCRIPTDIR=$(dirname $(readlink -f "$0"))
+
+##
+## Process arguments
+##
+CMD=()
+
+while [ 1 ]; do 
+    case $1 in
+      "--shell" | "-s")
+          shift
+          RUN_IN_SHELL="YES"
+          ;;
+      "--config" | "-c")
+          shift
+          CONFIG_FILE_ARG="$1"
+          shift
+          ;;
+      "--install" | "-i")
+          shift
+          INSTALL_MODE="YES"
+          ;;
+      -*)
+          CMD=("${CMD[@]}" "$1")
+          shift
+          ;;
+      *)
+          break
+          ;;
+    esac
+done
+
+if [[ $# == 0 ]]; then
+    RUN_IN_SHELL="YES"
+else
+    CMD=(${CMD[@]} "$@")
+fi
+
+
+##
+## Load configuration
+## Config files and their loading order: /etc/XilinxISE-docker.config, $HOME/.config/XilinxISE-docker.config, config file near by this script file, --config option
+## Later ones in this list overwrite values have been set by earlier ones.
+##
+CONFIG_FILES=("/etc/XilinxISE-docker.config" "${HOME}/.config/XilinxISE-docker.conf" "${SCRIPTDIR}/config" "${CONFIG_FILE_ARG}")
+
+function full_path {
+    local basedir=$1
+    local value=$2
+    if [[ $value != /* ]]; then
+        value="${basedir}/${value}"
+    fi
+    echo $value
+}
+
+function normalize_paths {
+    XILINX_ISE=$(full_path $1 $XILINX_ISE)
+    WORKSPACE=$(full_path $1 $WORKSPACE)
+    INSTALLER=$(full_path $1 $INSTALLER)
+}
+
+# default values: everything is near by this script file
+XILINX_ISE="XilinxISE"
+WORKSPACE="workspace"
+INSTALLER="install"
+XILINX_ISE_VERSION="14.7"
+DOCKER_IMAGE="zberkes/xilinx-ise-centos6"
+normalize_paths $SCRIPTDIR
+
+# process config files
+for f in "${CONFIG_FILES[@]}"; do
+    if [[ -e $f ]]; then
+        . "$f"
+        normalize_paths $(dirname "$f")
+    fi
+done
+
+
+##
+## Figure out docker options
+##
+DOCKER_OPTIONS=()
+
+# shell mode
+if [[ -n $RUN_IN_SHELL ]]; then
+    DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}"  "-ti" "--rm")
+else
+    DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}"  "-d")
+fi
+
+# install mode
+if [[ -n $INSTALL_MODE ]]; then
+    if [[ ! -e $XILINX_ISE ]]; then
+        mkdir -p "${XILINX_ISE}"
+    fi
+    DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}" "-v" "${INSTALLER}:/media/install:ro")
+    DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}" "-v" "${XILINX_ISE}:/opt/Xilinx")
+    CMD=("--install" "${CMD[@]}")
+else
+    DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}" "-v" "${XILINX_ISE}:/opt/Xilinx:ro")
+fi
+
+##
+## Run docker
+##
+docker run "${DOCKER_OPTIONS[@]}" \
+       -e DISPLAY=$DISPLAY \
+       --net=host \
+       -v $HOME/.Xauthority:/home/developer/.Xauthority:ro \
+       -v "${WORKSPACE}":/home/workspace \
+       ${DOCKER_IMAGE} \
+       --uid "$(id -u)" \
+       --user "$(id -u -n)" \
+       --gid "$(id -g)" \
+       --group "$(id -g -n)" \
+       --create-user \
+       --version "${XILINX_ISE_VERSION}" \
+       "${CMD[@]}"

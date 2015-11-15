@@ -1,0 +1,34 @@
+# This is a sample config file.
+#
+# Config files and their loading order:
+# 1. /etc/XilinxISE-docker.config
+# 2. $HOME/.config/XilinxISE-docker.config
+# 3. "config" file near by your Docker starter script ("xilinx")
+# 4. --config option given to Docker starter script ("xilinx")
+# Later ones in this list overwrite values have been set by earlier ones.
+#
+# Technically this is a BASH script fragment, so you can do almost
+# everything here, but please keep working directory.
+
+# Paths can be absolute, or relative to this file.
+
+
+# The folder where Xilinx ISE has been installed.
+XILINX_ISE="XilinxISE"
+
+# Your workspace folder. It will be your home folder in Docker.
+WORKSPACE="workspace"
+
+# The folder when extracted Xilinx ISE installer exists.
+# It is mounted only when "--install" option is given to the starter script.
+INSTALLER="install"
+
+# The version of installed Xilinx ISE.
+# You can install more versions to $XILINX_ISE and select which one to use
+# with this option.
+XILINX_ISE_VERSION="14.7"
+
+# The name of docker image to run.
+# If you create your own docker image based on xilinx-ise-centos6, then you
+# can give its name here.
+DOCKER_IMAGE="zberkes/xilinx-ise-centos6"
