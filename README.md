@@ -3,8 +3,9 @@ Docker image and starter script for Xilinx ISE.
 
 Xilinx has released _the last_ version of Xilinx ISE in 2013 -- namely version 14.7 -- and the product is now mature and discontinued.
 If you want to use it under GNU/Linux, you may find difficulties to install and run it on a recent GNU/Linux distro, because support
-of old libraries used by Xilinx ISE start disappearing in modern distros. With this image you can run Xilinx ISE in a Docker container
-on top of CentOS 6 while your workspace mounted ino the container.
+of old libraries used by Xilinx ISE start disappearing in modern distros. With
+[this Docker image](https://hub.docker.com/r/zberkes/xilinx-ise-centos6/) you can run Xilinx ISE in a Docker container on top of CentOS 6
+while your workspace mounted ino the container.
 
 
 Installation
@@ -12,6 +13,8 @@ Installation
 
 For copyright and size reasons this image only contains a preconfigured CentOS 6 with a start-up script (docker-entrypoint.sh). To get
 a working Xilinx ISE development environment, first you have to deploy that in this image:
+
+0. pull docker image: `docker pull zberkes/xilinx-ise-centos6`
 
 1. [Download Xilinx ISE Design Suite](http://www.xilinx.com/products/design-tools/ise-design-suite.html) version
     [14.7](http://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/design-tools/v2012_4---14_7.html)
