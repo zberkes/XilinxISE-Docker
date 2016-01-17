@@ -45,7 +45,7 @@ fi
 ## Config files and their loading order: /etc/XilinxISE-docker.config, $HOME/.config/XilinxISE-docker.config, config file near by this script file, --config option
 ## Later ones in this list overwrite values have been set by earlier ones.
 ##
-CONFIG_FILES=("/etc/XilinxISE-docker.config" "${HOME}/.config/XilinxISE-docker.conf" "${SCRIPTDIR}/config" "${CONFIG_FILE_ARG}")
+CONFIG_FILES=("/etc/XilinxISE-docker.config" "${HOME}/.config/XilinxISE-docker.config" "${SCRIPTDIR}/config" "${CONFIG_FILE_ARG}")
 
 function full_path {
     local basedir=$1
