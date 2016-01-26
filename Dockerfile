@@ -20,3 +20,7 @@ VOLUME [ "/opt/Xilinx", "/home/workspace"  ]
 WORKDIR /home/workspace
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 CMD [ "--shell" ]
+
+#RUN yum -y install gcc
+RUN yum -y groupinstall "Development tools"
+
