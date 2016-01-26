@@ -8,6 +8,7 @@ RUN yum -y install \
     firefox \
     openmotif22 \
     patch \
+    file \
 && yum clean all
 
 RUN curl -o /usr/local/bin/gosu -sSL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$(arch | sed s/x86_64/amd64/ --)" \
