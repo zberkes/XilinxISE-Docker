@@ -24,7 +24,7 @@ a working Xilinx ISE development environment, first you have to deploy that in t
 
 3. Download the [startup script file](https://github.com/zberkes/XilinxISE-Docker/blob/master/xilinx) and
     [configuration file](https://github.com/zberkes/XilinxISE-Docker/blob/master/config) into a folder and add it to PATH, or make a symlink
-    to `xilinx` from your bin folder. Certainly, you can checkout the ful source code from
+    to `xilinx` from your bin folder. Certainly, you can checkout the full source code from
     [GitHub](https://github.com/zberkes/XilinxISE-Docker)
 
     Optionally you can put it directly in your bin folder and the config file to `$HOME/.config/Docker` or
