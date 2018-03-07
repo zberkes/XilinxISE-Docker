@@ -19,7 +19,7 @@ XILINX_ISE="XilinxISE"
 # Your workspace folder. It will be your home folder in Docker.
 WORKSPACE="workspace"
 
-# The folder when extracted Xilinx ISE installer exists.
+# The folder where extracted Xilinx ISE installer exists.
 # It is mounted only when "--install" option is given to the starter script.
 INSTALLER="install"
 

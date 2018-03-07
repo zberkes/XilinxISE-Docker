@@ -35,7 +35,7 @@ a working Xilinx ISE development environment, first you have to deploy that in t
 
 5. Start the installation with the following command:
 
-    `xilinx --install xstart`
+    `xilinx --install xsetup`
 
     If everything is okay, Xilinx ISE's installer window appears. Accept licences and all default setup configs.
 
