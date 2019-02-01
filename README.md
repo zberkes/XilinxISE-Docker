@@ -81,6 +81,12 @@ Known issues
 
     Cause: It is waiting to register an RPC service.
 
+  * *Xilinx FGPA Editor* doesn't start on Ubuntu 18.04 host.
+
+    Cause: It can't load 75 dpi fonts. [details](https://forums.xilinx.com/t5/General-Technical-Discussion/Xilinx-issues-on-Linux/m-p/277676/highlight/true#M12393)
+    
+    Solution: install xfonts-75dpi package on the host OS.
+    
 
 Startup script reference
 ========================
