@@ -79,7 +79,9 @@ Known issues
 
   * *Xilinx FGPA Editor* starts slowly.
 
-    Cause: It is waiting to register an RPC service.
+    Cause: It is waiting to register an RPC service. [details](https://stackoverflow.com/questions/10448696/error-on-trying-to-run-a-simple-rpc-program/10455303)
+    
+    Solution: Install rpcbind on host OS.
 
   * *Xilinx FGPA Editor* doesn't start on Ubuntu 18.04 host.
 
