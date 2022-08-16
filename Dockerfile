@@ -1,4 +1,4 @@
-FROM centos:6
+FROM centos:7
 
 MAINTAINER Zoltán Berkes <zoltan.berkes.1@gmail.com>
 

@@ -59,7 +59,7 @@ function apply_xilinx_settings {
 }
 
 if [[ -n $CREATE_USER ]]; then
-    groupadd --gid "${HOST_GID}" "${HOST_GROUP}"
+###    groupadd --gid "${HOST_GID}" "${HOST_GROUP}"
     useradd  --gid "${HOST_GID}" --uid "${HOST_UID}" --home-dir /home/workspace --no-create-home  "${HOST_USER}"
 fi
 
