@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-SCRIPTDIR=$(dirname $(readlink -f "$0"))
+SCRIPTDIR=$(dirname $(stat -f "$0"))
 
 ##
 ## Process arguments
@@ -67,7 +67,7 @@ XILINX_ISE="XilinxISE"
 WORKSPACE="workspace"
 INSTALLER="install"
 XILINX_ISE_VERSION="14.7"
-DOCKER_IMAGE="zberkes/xilinx-ise-centos6"
+DOCKER_IMAGE="xilinx-ise"
 normalize_paths $SCRIPTDIR
 
 # process config files
@@ -98,6 +98,7 @@ if [[ -n $INSTALL_MODE ]]; then
     fi
     DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}" "-v" "${INSTALLER}:/media/install:ro")
     DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}" "-v" "${XILINX_ISE}:/opt/Xilinx")
+    DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}" "-v" "/private/tmp/:/private/tmp")
     CMD=("--install" "${CMD[@]}")
 else
     DOCKER_OPTIONS=("${DOCKER_OPTIONS[@]}" "-v" "${XILINX_ISE}:/opt/Xilinx:ro")
@@ -107,7 +108,7 @@ fi
 ## Run docker
 ##
 docker run "${DOCKER_OPTIONS[@]}" \
-       -e DISPLAY=$DISPLAY \
+       -e DISPLAY=host.docker.internal:0 \
        --net=host \
        -v $HOME/.Xauthority:/home/developer/.Xauthority:ro \
        -v "${WORKSPACE}":/home/workspace \

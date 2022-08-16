@@ -31,4 +31,4 @@ XILINX_ISE_VERSION="14.7"
 # The name of docker image to run.
 # If you create your own docker image based on xilinx-ise-centos6, then you
 # can give its name here.
-DOCKER_IMAGE="zberkes/xilinx-ise-centos6"
+DOCKER_IMAGE="xilinx-ise"
